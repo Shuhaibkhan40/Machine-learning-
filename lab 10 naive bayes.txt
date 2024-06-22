@@ -1,0 +1,52 @@
+10)NAVIE BAYES 
+# classification techniques - Naive Bayes
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+In [2]:
+from sklearn.metrics import accuracy_score
+df = pd.read_csv("heart.csv")
+df.head()
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+
+y = df.iloc[:,13]
+x = df.iloc[:,:-1]
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.3, random_state=0)
+
+x_train_scaled = scaler.fit_transform(x_train)
+x_test_scaled = scaler.transform(x_test)
+In [7]:
+from sklearn.naive_bayes import GaussianNB
+gnb = GaussianNB()
+gnb.fit(x_train_scaled, y_train)
+y_pred = gnb.predict(x_test_scaled)
+In [8]:
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+result2 = round(accuracy_score(y_test, y_pred)*100,2)
+print("Accuracy : ",result2)
+Accuracy :  79.31
+In [9]:
+result = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix : ")
+print(result)
+Confusion Matrix : 
+[[32 11]
+ [ 7 37]]
+In [10]:
+result1 = classification_report(y_t
+                                est,y_pred)
+print("Classification Report : ")
+print(result1)
+Classification Report : 
+              precision    recall  f1-score   support
+
+           0       0.82      0.74      0.78        43
+           1       0.77      0.84      0.80        44
+
+    accuracy                           0.79        87
+   macro avg       0.80      0.79      0.79        87
+weighted avg       0.80      0.79      0.79        87
+

@@ -1,0 +1,66 @@
+14. Ensemble method- Stacking 
+
+#Stacking
+from sklearn.datasets import load_iris
+from sklearn.ensemble import StackingClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+
+# Load the Iris dataset
+iris=load_iris()
+X=iris.data
+y=iris.target
+
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+
+# Define base learners
+base_learners = [
+        ('decision_tree', DecisionTreeClassifier(max_depth=1)),
+    ('lr', LogisticRegression())  ]
+
+
+# Define the meta-learner
+meta_learner = SVC(probability=True, random_state=42)
+
+
+
+# Initialize the Stacking Classifier with the base learners and the meta-learner
+stack_clf = StackingClassifier(estimators=base_learners, final_estimator=meta_learner)
+
+
+
+# Train the stacking classifier
+stack_clf.fit(X_train, y_train)
+# Make predictions on the test set
+y_pred = stack_clf.predict(X_test)
+
+
+# Evaluate and print the accuracy of the model
+print("Stacking Model Accuracy:", accuracy_score(y_test, y_pred))
+
+
+from sklearn.metrics import classification_report, confusion_matrix,
+Result2 = confusion_matrix(y_test, y_pred)
+
+
+
+print("Confusion Matrix:") 
+print(result2) 
+
+Result3 = classification_report(y_test, y_pred) 
+print("Classification Report:",) 
+print (result3)
+
+
+
+
+ 
+
+
